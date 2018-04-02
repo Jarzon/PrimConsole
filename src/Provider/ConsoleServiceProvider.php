@@ -1,9 +1,9 @@
 <?php
 
-namespace PrimTools\Provider;
+namespace Prim\Console\Provider;
 
 use Pimple\Container;
-use PrimTools\Provider\Console\ContainerAwareApplication;
+use Prim\Console\Provider\Console\ContainerAwareApplication;
 
 /**
  * Cilex Console Service Provider

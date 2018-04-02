@@ -4,7 +4,7 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use PrimTools\Migration;
+use Prim\Console\Migration;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
@@ -32,7 +32,7 @@ $router->any('/login', ['\Project\Controller\Sentence', 'login']);
 EOD;
 
         $structure = [
-            'PrimTools' => [
+            'Prim\Console' => [
                 'Migrations' => [
                     '0.1.php' => '',
                 ],
@@ -56,7 +56,7 @@ EOD;
 
         $migration = new Migration('0.1', $output);
 
-        $this->assertTrue($migration->migration(vfsStream::url('/root/ProjectDir/'), vfsStream::url('/root/PrimTools/Migrations/0.1.php')),
+        $this->assertTrue($migration->migration(vfsStream::url('/root/ProjectDir/'), vfsStream::url('/root/Prim\Console/Migrations/0.1.php')),
             '->migration return true when file exist');
 
         return [$migration, $output];

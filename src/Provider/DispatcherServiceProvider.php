@@ -1,6 +1,6 @@
 <?php
 
-namespace PrimTools\Provider;
+namespace Prim\Console\Provider;
 
 use Pimple\Container;
 use Symfony\Component\EventDispatcher\EventDispatcher;

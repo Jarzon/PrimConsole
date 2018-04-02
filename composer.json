@@ -1,8 +1,8 @@
 {
-    "name": "jarzon/primtools",
+    "name": "jarzon/primconsole",
     "type": "project",
     "autoload": {
-        "psr-4": {"PrimTools\\": "src/PrimTools/"}
+        "psr-4": {"Prim\\Console\\": "src/"}
     },
     "require": {
         "php": ">=7.0.0",

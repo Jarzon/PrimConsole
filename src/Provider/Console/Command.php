@@ -1,6 +1,6 @@
 <?php
 
-namespace PrimTools\Provider\Console;
+namespace Prim\Console\Provider\Console;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
 
@@ -18,7 +18,7 @@ abstract class Command extends BaseCommand
     /**
      * Returns the application container.
      *
-     * @return \PrimTools\Application
+     * @return \Prim\Console\Application
      */
     public function getContainer()
     {

@@ -12,7 +12,7 @@
     bootstrap="vendor/autoload.php">
 
     <testsuites>
-        <testsuite name="PrimTools Test Suite">
+        <testsuite name="Prim\Console Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

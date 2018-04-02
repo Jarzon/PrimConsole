@@ -1,6 +1,6 @@
 <?php
 
-namespace PrimTools\Provider\Console;
+namespace Prim\Console\Provider\Console;
 
 use Pimple\Container;
 use Symfony\Component\Console\Application;

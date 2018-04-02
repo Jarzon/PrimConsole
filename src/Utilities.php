@@ -1,5 +1,5 @@
 <?php
-namespace PrimTools;
+namespace Prim\Console;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;

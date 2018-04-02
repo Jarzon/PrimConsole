@@ -1,12 +1,12 @@
 <?php
 
-namespace PrimTools\Provider;
+namespace Prim\Console\Provider;
 
 use Pimple\Container;
-use PrimTools\Pack;
+use Prim\Console\Pack;
 
 /**
- * PrimTools Utilities Service Provider
+ * Prim\Console Utilities Service Provider
  *
  * @author Jarzon <j@masterj.net>
  */

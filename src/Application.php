@@ -1,5 +1,5 @@
 <?php
-namespace PrimTools;
+namespace Prim\Console;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -8,10 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use PrimTools\Provider\ConsoleServiceProvider;
-use PrimTools\Provider\DispatcherServiceProvider;
-use PrimTools\Provider\MigrationServiceProvider;
-use PrimTools\Provider\PackServiceProvider;
+use Prim\Console\Provider\ConsoleServiceProvider;
+use Prim\Console\Provider\DispatcherServiceProvider;
+use Prim\Console\Provider\MigrationServiceProvider;
+use Prim\Console\Provider\PackServiceProvider;
 
 
 /**

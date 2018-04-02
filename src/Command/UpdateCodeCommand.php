@@ -1,11 +1,11 @@
 <?php
 
-namespace PrimTools\Command;
+namespace Prim\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PrimTools\Provider\Console\Command;
+use Prim\Console\Provider\Console\Command;
 
 /**
  * Example command for testing purposes.
