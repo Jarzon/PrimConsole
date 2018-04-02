@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+if (!$loader = include __DIR__ . '/../../../autoload.php') {
+    die('You must set up the project dependencies.');
+}
+
+set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
+    // error was suppressed with the @-operator
+    if (0 === error_reporting()) {
+        return false;
+    }
+
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+});
+
+$app = new \Prim\Console\Application('Prim\Console', "0.1");
+$app->command(new \Prim\Console\Command\UpdateCodeCommand());
+$app->command(new \Prim\Console\Command\PackCommand());
+
+$app->run();
