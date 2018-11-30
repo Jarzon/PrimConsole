@@ -13,6 +13,6 @@ class Home extends Controller
     {
         $model = $this->getModel('BaseModel', 'BasePack');
 
-        $this->design('index', ['name' => 'anonymous']);
+        $this->render('index', ['name' => 'anonymous']);
     }
 }

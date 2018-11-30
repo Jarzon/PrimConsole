@@ -2,7 +2,7 @@
 namespace PrimBase\BasePack\Controller;
 
 use Prim\Controller;
-use PrimUtilities\Forms;
+use Jarzon\Forms;
 
 use PrimBase\BasePack\Model\ItemModel;
 
@@ -14,14 +14,17 @@ class Item extends Controller
     {
         parent::__construct($view, $container);
 
-        //$this->verification();
+        $this->itemModel = $this->getModel('ItemModel', 'ItemPack');
+
+        $this->verification();
     }
 
-    private function getItemForms($infos = false) {
+    private function getItemForms() {
         $forms = new Forms($_POST);
 
-        $forms->text('', 'name', '', $infos->name, 50, 0, ['required' => 'required']);
-        $forms->text('', 'description', '', $infos->description, 50, 0);
+        $forms
+            ->text('name')->max(50)->required()
+            ->text('description')->max(50);
 
         return $forms;
     }
@@ -30,28 +33,23 @@ class Item extends Controller
     {
         $baseModel = new ItemModel($this->db);
 
-        $item =  new class{
-            public $name = '';
-            public $description = '';
-        };
-
-        $forms = $this->getItemForms($item);
+        $forms = $this->getItemForms();
 
         // if we have POST data to create a new item entry
         if (isset($_POST['submit_item'])) {
             try {
                 $params = $forms->verification();
 
-                $this->addVar('message', ['ok', 'the item have been added']);
+                $_SESSION['flash_message'] = ['ok', 'the item have been added'];
             }
             catch (\Exception $e) {
-                $this->addVar('message', ['error', $e->getMessage()]);
+                $_SESSION['flash_message'] = ['error', $e->getMessage()];
             }
 
             if(isset($params)) {
                 $params[] = $this->user_id;
 
-                $baseModel->addItem(...$params);
+                $baseModel->addItem($params);
             }
         }
 
@@ -80,15 +78,17 @@ class Item extends Controller
 
         $forms = $this->getItemForms($infos);
 
+        $forms->updateValues($item);
+
         if (isset($_POST['submit_item'])) {
 
             try {
                 $params = $forms->verification();
 
-                $this->addVar('message', ['ok', 'the product have been updated']);
+                $_SESSION['flash_message'] = ['ok', 'the product have been updated'];
             }
             catch (\Exception $e) {
-                $this->addVar('message', ['error', $e->getMessage()]);
+                $_SESSION['flash_message'] = ['error', $e->getMessage()];
             }
 
             $params[] = $item_id;
