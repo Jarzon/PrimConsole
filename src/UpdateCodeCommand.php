@@ -1,11 +1,8 @@
 <?php
 
-namespace Prim\Console\Command;
+namespace Prim\Console;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Prim\Console\Provider\Console\Command;
+use Prim\Command;
 
 /**
  * Example command for testing purposes.
@@ -19,9 +16,7 @@ class UpdateCodeCommand extends Command
     {
         $this
             ->setName('update:code')
-            ->setDescription('Update code source')
-            ->addArgument('project', InputArgument::OPTIONAL, 'Target project')
-            ->addArgument('version', InputArgument::OPTIONAL, 'Target version to upgrade to');
+            ->setDescription('Update code source');
     }
 
     /**
@@ -29,11 +24,9 @@ class UpdateCodeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $project = $input->getArgument('project');
-
         $version = $input->getArgument('version');
 
-        if (!$project || !$version) {
+        if (!$version) {
             $output->writeln('✖ Missing project name or version');
             return;
         }
@@ -41,7 +34,7 @@ class UpdateCodeCommand extends Command
         $migration = $this->getService('migration');
 
         // TODO: Should be done in the constuctor but while still being able to stop the app if the project doesn't exist
-        if($migration->init($project, $output)) {
+        if($migration->init($output)) {
             $migration->migration($version);
         }
 

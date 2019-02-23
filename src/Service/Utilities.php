@@ -1,35 +1,20 @@
 <?php
-namespace Prim\Console;
-
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
+namespace Prim\Console\Service;
 
 class Utilities
 {
-    public $project = '';
     public $projectPath = '';
     public $output;
-    public $pimple;
 
-    public function __construct($pimple, ConsoleOutputInterface $output = null) {
-        $this->pimple = $pimple;
+    public function __construct($output = null)
+    {
+        $this->projectPath = realpath(__DIR__ . '../../../../../../');
 
-        if ($output === null) {
-            $output = new ConsoleOutput();
+        if($output === null) {
+            $output = new Output();
         }
 
         $this->output = $output;
-    }
-
-    /**
-     * Inject
-     * */
-    public function init(string $project) : bool
-    {
-        $this->project = $project;
-        $this->projectPath = realpath(__DIR__ . '../../../../../../');
-
-        return true;
     }
 
     function copy(string $src, string $dst, array $whitelist = [])
@@ -84,7 +69,7 @@ class Utilities
     public function fileExists(string $dest) : bool
     {
         if (!file_exists($dest)) {
-            $this->output->writeln("✖ folder doesn't exist at $dest");
+            $this->output->writeLine("✖ folder doesn't exist at $dest");
             return false;
         }
         return true;
@@ -108,11 +93,11 @@ class Utilities
     {
         $dest = $this->getProjectPath($file);
         if (!copy($dest, $dest . '.backup')) {
-            $this->output->writeln("✖ Failed to copy $file...");
+            $this->output->writeLine("✖ Failed to copy $file...");
             return;
         }
 
-        $this->output->writeln("✔ Make copy of $file");
+        $this->output->writeLine("✔ Make copy of $file");
     }
 
     /**
@@ -130,13 +115,13 @@ class Utilities
 
         try {
             if (!file_put_contents($filePath, $text, $flags) > 0) {
-                $this->output->writeln("✖ Error while writing file");
+                $this->output->writeLine("✖ Error while writing file");
             }
         } catch (\Exception $e) {
-            $this->output->writeln("✖ Exception: $e");
+            $this->output->writeLine("✖ Exception: $e");
         }
 
-        $this->output->writeln("✔ Created file at $filePath");
+        $this->output->writeLine("✔ Created file at $filePath");
     }
 
     function replaceInFile(string $filePath, array $rows, $simpleString = false) : bool
@@ -155,24 +140,24 @@ class Utilities
             if($replace instanceof \Closure) {
 
                 if (file_exists($filePath) === false || !is_writeable($filePath)) {
-                    $this->output->writeln("✖ File $filePath does not exist or isn't writable");
+                    $this->output->writeLine("✖ File $filePath does not exist or isn't writable");
                     return false;
                 }
 
                 $fileContent = file_get_contents($filePath);
                 $count = 0;
                 if (!$fileContent = preg_replace_callback($regex, $replace, $fileContent, -1, $count)) {
-                    $this->output->writeln("✖ Error in preg_replace_callback()");
+                    $this->output->writeLine("✖ Error in preg_replace_callback()");
                     return false;
                 }
 
                 if($count == 0) {
-                    $this->output->writeln("✖ Nothing to replace in $filePath");
+                    $this->output->writeLine("✖ Nothing to replace in $filePath");
                     return false;
                 }
 
                 if (!file_put_contents($filePath, $fileContent) > 0) {
-                    $this->output->writeln("✖ Error while writing file");
+                    $this->output->writeLine("✖ Error while writing file");
                     return false;
                 }
 
@@ -184,7 +169,7 @@ class Utilities
         }
 
         if (file_exists($filePath) === false || !is_writeable($filePath)) {
-            $this->output->writeln("✖ File $filePath does not exist or isn't writable");
+            $this->output->writeLine("✖ File $filePath does not exist or isn't writable");
             return false;
         }
 
@@ -200,24 +185,24 @@ class Utilities
             }
 
             if($count == 0) {
-                $this->output->writeln("✖ Nothing to replace in $filePath");
+                $this->output->writeLine("✖ Nothing to replace in $filePath");
                 return false;
             }
 
             if ($fileContent === null) {
-                $this->output->writeln("✖ Error in preg_replace()");
+                $this->output->writeLine("✖ Error in preg_replace()");
                 return false;
             }
             if (!file_put_contents($filePath, $fileContent) > 0) {
-                $this->output->writeln("✖ Error while writing file");
+                $this->output->writeLine("✖ Error while writing file");
                 return false;
             }
 
-            $this->output->writeln("✔ Migration on file $filePath done");
+            $this->output->writeLine("✔ Migration on file $filePath done");
 
             return true;
         } catch (\Exception $e) {
-            $this->output->writeln("✖ Exception: $e");
+            $this->output->writeLine("✖ Exception: $e");
             return false;
         }
     }
@@ -227,7 +212,7 @@ class Utilities
         $filePath = $this->getProjectPath($filePath);
 
         if (file_exists($filePath) === false || !is_writeable($filePath)) {
-            $this->output->writeln("✖ File $filePath does not exist or isn't writable");
+            $this->output->writeLine("✖ File $filePath does not exist or isn't writable");
         }
 
         $fileContent = file_get_contents($filePath);
@@ -313,34 +298,5 @@ class Utilities
         }
 
         return true;
-    }
-
-    /**
-     * Get the Container.
-     *
-     * @return Container
-     */
-    public function getContainer()
-    {
-        return $this->pimple;
-    }
-
-    /**
-     * Returns a service contained in the application pimple or null if none is found with that name.
-     *
-     * This is a convenience method used to retrieve an element from the Application pimple without having to assign
-     * the results of the getContainer() method in every call.
-     *
-     * @param string $name Name of the service.
-     *
-     * @see self::getContainer()
-     *
-     * @api
-     *
-     * @return mixed|null
-     */
-    public function getService($name)
-    {
-        return $this->pimple[$name];
     }
 }

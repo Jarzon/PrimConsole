@@ -2,41 +2,28 @@
 
 namespace Prim\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Prim\Console\Provider\Console\Command;
+use Prim\Command;
 
 /**
  * Example command for testing purposes.
  */
 class PackCommand extends Command
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function configure()
     {
         $this
             ->setName('pack:create')
             ->setDescription('Create a new pack')
-            ->addArgument('project', InputArgument::OPTIONAL, 'Target project')
             ->addArgument('name', InputArgument::OPTIONAL, 'Pack name')
             ->addOption('crud', 'c', InputOption::VALUE_NONE, 'If set, the pack is gonna contain a basic CRUD');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute()
     {
-        $project = $input->getArgument('project');
-
         $name = $input->getArgument('name');
 
-        if (!$project || !$name) {
-            $output->writeln('✖ Missing project name or pack name');
+        if (!$name) {
+            $this->output ->writeLinen('✖ Missing project name or pack name');
             return;
         }
 
@@ -48,7 +35,7 @@ class PackCommand extends Command
 
         $pack = $this->getService('pack');
 
-        if($pack->init($project, $output)) {
+        if($pack->init($output)) {
             $pack->create($name, $packName);
         }
 

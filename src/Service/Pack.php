@@ -1,10 +1,5 @@
 <?php
-namespace Prim\Console;
-
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-
-use Prim\Console\Utilities;
+namespace Prim\Console\Service;
 
 class Pack extends Utilities
 {
@@ -30,13 +25,13 @@ class Pack extends Utilities
 
         // Look if the project and the pack exist
         if ($this->fileExists($packPath)) {
-            $this->output->writeln("✖ Pack folder already exist");
+            $this->output->writeLine("✖ Pack folder already exist") ;
             return false;
         }
 
         $this->name = $packName;
 
-        $this->recursiveCopy(realpath(__DIR__).'/Packs/'.$basePackName.'/', $packPath);
+        $this->recursiveCopy(realpath(__DIR__) . '/Packs/', $packPath);
 
         $this->replaceInFolder("/src/$packName/", [
             ['BasePack', $packName],

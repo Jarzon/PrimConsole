@@ -1,10 +1,5 @@
 <?php
-namespace Prim\Console;
-
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-
-use Prim\Console\Utilities;
+namespace Prim\Console\Service;
 
 class Migration extends Utilities
 {

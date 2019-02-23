@@ -4,11 +4,11 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use Prim\Console\Migration;
+use Prim\Console\Service\Migration;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Prim\Console\Service\Output;
 
 class MigrationTest extends TestCase
 {
@@ -54,7 +54,7 @@ EOD;
     {
         $output = new TestOutput();
 
-        $migration = new Migration('0.1', $output);
+        $migration = new Migration($output);
 
         $this->assertTrue($migration->migration(vfsStream::url('/root/ProjectDir/'), vfsStream::url('/root/Prim\Console/Migrations/0.1.php')),
             '->migration return true when file exist');
@@ -109,7 +109,7 @@ EOD;
     }
 }
 
-class TestOutput extends ConsoleOutput
+class TestOutput extends Output
 {
     public $output = '';
 
@@ -118,8 +118,8 @@ class TestOutput extends ConsoleOutput
         $this->output = '';
     }
 
-    protected function doWrite($message, $newline)
+    public function writeLine($message)
     {
-        $this->output .= $message . ($newline ? "\n" : '');
+        $this->output .= $message;
     }
 }
