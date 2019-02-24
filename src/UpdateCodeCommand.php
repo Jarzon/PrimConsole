@@ -1,42 +1,31 @@
 <?php
-
 namespace Prim\Console;
 
-use Prim\Command;
+use Prim\Console\Service\Migration;
 
-/**
- * Example command for testing purposes.
- */
 class UpdateCodeCommand extends Command
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function configure()
+    public function __construct($input = null, $output = null)
     {
+        parent::__construct($input, $output);
+
         $this
             ->setName('update:code')
             ->setDescription('Update code source');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function exec()
     {
-        $version = $input->getArgument('version');
+        $version = $this->getArgument('version');
 
         if (!$version) {
-            $output->writeln('✖ Missing project name or version');
+            $this->output->writeLine('✖ Missing project name or version');
             return;
         }
 
-        $migration = $this->getService('migration');
+        $migration = new Migration();
 
-        // TODO: Should be done in the constuctor but while still being able to stop the app if the project doesn't exist
-        if($migration->init($output)) {
-            $migration->migration($version);
-        }
+        $migration->migration($version);
 
         return;
     }

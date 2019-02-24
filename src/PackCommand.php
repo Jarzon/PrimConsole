@@ -1,43 +1,41 @@
 <?php
 
-namespace Prim\Console\Command;
+namespace Prim\Console;
 
-use Prim\Command;
+use Prim\Console\Service\Pack;
 
 /**
  * Example command for testing purposes.
  */
 class PackCommand extends Command
 {
-    protected function configure()
+    public function __construct($input = null, $output = null)
     {
+        parent::__construct($input, $output);
+
         $this
             ->setName('pack:create')
-            ->setDescription('Create a new pack')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Pack name')
-            ->addOption('crud', 'c', InputOption::VALUE_NONE, 'If set, the pack is gonna contain a basic CRUD');
+            ->setDescription('Create a new pack');
     }
 
-    protected function execute()
+    public function exec()
     {
-        $name = $input->getArgument('name');
+        $name = $this->input->getParameter('name');
 
         if (!$name) {
-            $this->output ->writeLinen('✖ Missing project name or pack name');
+            $this->output->writeLine('✖ Missing project name or pack name');
             return;
         }
 
         $packName = 'BasePack';
 
-        if ($input->getOption('crud')) {
+        if ($this->input->getFlag('crud')) {
             $packName = 'CrudPack';
         }
 
-        $pack = $this->getService('pack');
+        $pack = new Pack();
 
-        if($pack->init($output)) {
-            $pack->create($name, $packName);
-        }
+        $pack->create($name, $packName);
 
         return;
     }

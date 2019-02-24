@@ -8,7 +8,7 @@ use Prim\Console\Service\Migration;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use Prim\Console\Service\Output;
+use Prim\Console\Output;
 
 class MigrationTest extends TestCase
 {

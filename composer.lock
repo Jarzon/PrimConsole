@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "jarzon/prim",
-            "version": "v0.13.2",
+            "version": "v0.13.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jarzon/Prim.git",
-                "reference": "6cbfdf9c730915ec2830055fdf379fd930ad0c90"
+                "reference": "25d48cac21c5234c64e0e5015cc5841b6bf3dadd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/6cbfdf9c730915ec2830055fdf379fd930ad0c90",
-                "reference": "6cbfdf9c730915ec2830055fdf379fd930ad0c90",
+                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/25d48cac21c5234c64e0e5015cc5841b6bf3dadd",
+                "reference": "25d48cac21c5234c64e0e5015cc5841b6bf3dadd",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,9 @@
                 "mikey179/vfsstream": "1.6.x",
                 "phpunit/phpunit": "~7.5.0"
             },
+            "bin": [
+                "bin/prim"
+            ],
             "type": "project",
             "autoload": {
                 "psr-4": {
@@ -50,7 +53,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2019-02-21T13:57:36+00:00"
+            "time": "2019-02-24T13:08:05+00:00"
         },
         {
             "name": "nikic/fast-route",

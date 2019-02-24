@@ -1,6 +1,8 @@
 <?php
 namespace Prim\Console\Service;
 
+use Prim\Console\Output;
+
 class Utilities
 {
     public $projectPath = '';
