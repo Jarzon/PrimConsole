@@ -1,13 +1,20 @@
 <?php
 namespace Prim\Console\Service;
 
-class Migration extends Utilities
+class Migration
 {
-    private $version = '';
+    protected $version = '';
+    protected $helper;
 
-    /**
-     * Do a migration
-     * */
+    public function __construct($helper = null)
+    {
+        if($helper === null) {
+            $helper = new Helpers();
+        }
+
+        $this->helper = $helper;
+    }
+
     public function migration(string $version) : bool
     {
         $version = realpath(__DIR__)."/Migrations/$version.php";

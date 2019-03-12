@@ -4,13 +4,13 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
+use Prim\Console\Service\Helpers;
 use Prim\Console\Service\Migration;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use Prim\Console\Output;
 
-class MigrationTest extends TestCase
+class HelpersTest extends TestCase
 {
     /**
      * @var  vfsStreamDirectory
@@ -44,7 +44,8 @@ EOD;
                 'app2' => [
                     'routing.php' => $routing,
                 ],
-            ]
+            ],
+            'stdout' => ''
         ];
 
         $this->root = vfsStream::setup('root', null, $structure);
@@ -52,25 +53,19 @@ EOD;
 
     public function testMigration()
     {
-        $output = new TestOutput();
+        $helper = new Helpers();
 
-        $migration = new Migration($output);
+        $this->assertTrue(true);
 
-        $this->assertTrue($migration->migration(vfsStream::url('/root/ProjectDir/'), vfsStream::url('/root/Prim\Console/Migrations/0.1.php')),
-            '->migration return true when file exist');
-
-        return [$migration, $output];
+        return $helper;
     }
 
     /**
      * @depends testMigration
      */
-    public function testReplaceRegexInFile($objs)
+    public function testReplaceRegexInFile($helper)
     {
-        $migration = $objs[0];
-        $output = $objs[1];
-
-        $migration->replaceRegexInFile('app/routing.php', [
+        $output = $helper->replaceInFile('app/routing.php', [
             '$router->get(',
             '$router->post(',
             '$router->any('
@@ -80,21 +75,19 @@ EOD;
             '$r->addRoute([\'GET\', \'POST\'], '
         ], true);
 
-        $this->assertContains("✔ Migration on file", $output->output, '->replaceRegexInFile() replace text');
+        $this->assertContains("✔ Migration on file", $output, '->replaceRegexInFile() replace text');
 
         // TODO: Test the file content to see if its been correctly replaced
 
         $output->reset();
     }
+
     /**
      * @depends testMigration
      */
-    public function testReplaceRegexFilesInFolder($objs)
+    public function testReplaceRegexFilesInFolder($helper)
     {
-        $migration = $objs[0];
-        $output = $objs[1];
-
-        $migration->replaceRegexFilesInFolder('app2/', [
+        $output = $helper->replaceInFile('app2/', [
             '/\$router->get\(/',
         ], [
             '$r->addRoute(\'GET\', ',
@@ -103,23 +96,8 @@ EOD;
         // TODO: Test this method again but with capturing (.*)
         // TODO: Test again but with the third arg that auto esc and make sure it does (won't pass for now)
 
-        $this->assertContains("✔ Migration on file", $output->output, '->replaceRegexFilesInFolder() replace text');
+        $this->assertContains("✔ Migration on file", $output, '->replaceRegexFilesInFolder() replace text');
 
         $output->reset();
-    }
-}
-
-class TestOutput extends Output
-{
-    public $output = '';
-
-    public function reset()
-    {
-        $this->output = '';
-    }
-
-    public function writeLine($message)
-    {
-        $this->output .= $message;
     }
 }

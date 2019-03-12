@@ -1,14 +1,27 @@
 <?php
 namespace Prim\Console\Service;
 
-class Pack extends Utilities
+class Pack
 {
-    private $name = '';
+    protected $projectPath = '/';
+    protected $projectName = '';
+    protected $name = '';
 
-    /**
-     * Do a migration
-     * */
-    public function create(string $name, string $basePackName) : bool
+    protected $helper;
+
+    public function __construct(string $projectPath, string $projectName, $helper = null)
+    {
+        $this->projectPath = $projectPath;
+        $this->projectName = $projectName;
+
+        if($helper === null) {
+            $helper = new Helpers();
+        }
+
+        $this->helper = $helper;
+    }
+
+    public function create(string $name, string $basePackName): bool
     {
         $packName = '';
         $itemName = '';

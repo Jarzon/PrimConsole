@@ -54,7 +54,7 @@ class Item extends Controller
         }
 
         $this->design('index', '', [
-            'items' => $baseModel->getAllItems($this->user_id),
+            'items' => $baseModel->getAllItems(),
             'forms' => $forms->getForms()
         ]);
     }
@@ -64,7 +64,7 @@ class Item extends Controller
         $item = new ItemModel($this->db);
 
         if (isset($item_id)) {
-            $item->deleteItem($item_id, $this->user_id);
+            $item->deleteItem($item_id);
         }
 
         $this->redirect('/products/');
@@ -74,7 +74,7 @@ class Item extends Controller
     {
         $item = new ItemModel($this->db);
 
-        $infos = $item->getItem($item_id, $this->user_id);
+        $infos = $item->getItem($item_id);
 
         $forms = $this->getItemForms($infos);
 
@@ -91,10 +91,7 @@ class Item extends Controller
                 $_SESSION['flash_message'] = ['error', $e->getMessage()];
             }
 
-            $params[] = $item_id;
-            $params[] = $this->user_id;
-
-            $item->updateItem(...$params);
+            $item->updateItem($item_id, ...$params);
         }
 
         $this->design('edit', '', [

@@ -1,24 +1,8 @@
 <?php
 namespace Prim\Console\Service;
 
-use Prim\Console\Output;
-
-class Utilities
+class Helpers
 {
-    public $projectPath = '';
-    public $output;
-
-    public function __construct($output = null)
-    {
-        $this->projectPath = realpath(__DIR__ . '../../../../../../');
-
-        if($output === null) {
-            $output = new Output();
-        }
-
-        $this->output = $output;
-    }
-
     function copy(string $src, string $dst, array $whitelist = [])
     {
         $MVCFolders = $this->getFilesList($src);
