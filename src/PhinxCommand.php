@@ -20,11 +20,11 @@ class PhinxCommand extends Command
     public function exec()
     {
         $migrationTypes = [
-            1 => 'newTable',
-            2 => 'addColumns',
-            3 => 'changeColumn',
-            4 => 'renameColumn',
-            5 => 'removeColumn'
+            'newTable',
+            'addColumns',
+            'changeColumn',
+            'renameColumn',
+            'removeColumn'
         ];
 
         $projectName = $this->options['project_name'];
@@ -33,6 +33,10 @@ class PhinxCommand extends Command
 
         $this->output->writeLine("In what pack is the migration going?");
         $pack = $this->input->read();
+
+        if(strpos($pack, 'Pack') === false) {
+            $pack = "{$pack}Pack";
+        }
 
         $pathToPack = "{$this->options['root']}src/{$pack}";
 
@@ -60,12 +64,24 @@ class PhinxCommand extends Command
         $this->output->writeLine("4) Rename columns");
         $this->output->writeLine("5) Remove columns");
 
-        $migrationType = $this->input->read();
+        $migrationType = $this->input->read() - 1;
 
-        $destinationFile = "{$pathToPack}/phinx/migrations/{$dateTime}_{$table}_{$underscoreDescription}.php";
+        $destinationFile = "{$pathToPack}/phinx/";
         $migrationClassName = ucfirst($table) . $camelCaseDescription;
 
-        FileHelper::copyFile(__DIR__ . "{$migrationTypes[$migrationType]}Migration.php", $destinationFile);
+        if(!file_exists($destinationFile)) {
+            FileHelper::mkdir($destinationFile);
+        }
+
+        $destinationFile .= "migrations/";
+
+        if(!file_exists($destinationFile)) {
+            FileHelper::mkdir($destinationFile);
+        }
+
+        $destinationFile .= "{$dateTime}_{$table}_{$underscoreDescription}.php";
+
+        FileHelper::copyFile(dirname(__DIR__ ). "/files/PhinxMigrations/{$migrationTypes[$migrationType]}Migration.php", $destinationFile);
 
         FileHelper::replaceInFile($destinationFile, [
             ['**TABLE**', $table],

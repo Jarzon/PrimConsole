@@ -1,8 +1,6 @@
 <?php
 namespace Prim\Console\Service;
 
-use mysql_xdevapi\Exception;
-
 class FileHelper
 {
     static function copy(string $src, string $dst, array $whitelist = [])
@@ -51,7 +49,7 @@ class FileHelper
     public static function fileExists(string $dest): bool
     {
         if (!file_exists($dest)) {
-            throw new Exception("✖ folder doesn't exist at $dest");
+            throw new \Exception("✖ folder doesn't exist at $dest");
         }
         return true;
     }
@@ -65,7 +63,7 @@ class FileHelper
     public static function fileBackup($file)
     {
         if (!copy($file, $file . '.backup')) {
-            throw new Exception("✖ Failed to copy $file...");
+            throw new \Exception("✖ Failed to copy $file...");
         }
 
         return "✔ Make copy of $file";
@@ -83,7 +81,7 @@ class FileHelper
         }
 
         if (!file_put_contents($filePath, $text, $flags) > 0) {
-            throw new Exception("✖ Error while writing file");
+            throw new \Exception("✖ Error while writing file");
         }
 
         return "✔ Created file at $filePath";
@@ -103,21 +101,21 @@ class FileHelper
             if($replace instanceof \Closure) {
 
                 if (file_exists($filePath) === false || !is_writeable($filePath)) {
-                    throw new Exception("✖ File $filePath does not exist or isn't writable");
+                    throw new \Exception("✖ File $filePath does not exist or isn't writable");
                 }
 
                 $fileContent = file_get_contents($filePath);
                 $count = 0;
                 if (!$fileContent = preg_replace_callback($regex, $replace, $fileContent, -1, $count)) {
-                    throw new Exception("✖ Error in preg_replace_callback()");
+                    throw new \Exception("✖ Error in preg_replace_callback()");
                 }
 
                 if($count == 0) {
-                    throw new Exception("✖ Nothing to replace in $filePath");
+                    throw new \Exception("✖ Nothing to replace in $filePath");
                 }
 
                 if (!file_put_contents($filePath, $fileContent) > 0) {
-                    throw new Exception("✖ Error while writing file");
+                    throw new \Exception("✖ Error while writing file");
                 }
 
                 return true;
@@ -128,7 +126,7 @@ class FileHelper
         }
 
         if (file_exists($filePath) === false || !is_writeable($filePath)) {
-            throw new Exception("✖ File $filePath does not exist or isn't writable");
+            throw new \Exception("✖ File $filePath does not exist or isn't writable");
         }
 
         $fileContent = file_get_contents($filePath);
@@ -142,14 +140,14 @@ class FileHelper
         }
 
         if($count == 0) {
-            throw new Exception("✖ Nothing to replace in $filePath");
+            throw new \Exception("✖ Nothing to replace in $filePath");
         }
 
         if ($fileContent === null) {
-            throw new Exception("✖ Error in preg_replace()");
+            throw new \Exception("✖ Error in preg_replace()");
         }
         if (!file_put_contents($filePath, $fileContent) > 0) {
-            throw new Exception("✖ Error while writing file");
+            throw new \Exception("✖ Error while writing file");
         }
 
         return "✔ Migration on file $filePath done";
@@ -158,7 +156,7 @@ class FileHelper
     static function extractFromFile(string $filePath, string $regex) : array
     {
         if (file_exists($filePath) === false || !is_writeable($filePath)) {
-            throw new Exception("✖ File $filePath does not exist or isn't writable");
+            throw new \Exception("✖ File $filePath does not exist or isn't writable");
         }
 
         $fileContent = file_get_contents($filePath);

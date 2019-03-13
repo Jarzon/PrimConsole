@@ -9,9 +9,9 @@ use Prim\Console\Service\Pack;
  */
 class PackCommand extends Command
 {
-    public function __construct(Console $console, $input = null, $output = null)
+    public function __construct(array $options, $input = null, $output = null)
     {
-        parent::__construct($console, $input, $output);
+        parent::__construct($options, $input, $output);
 
         $this
             ->setName('pack:create')
