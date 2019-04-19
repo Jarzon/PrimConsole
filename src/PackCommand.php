@@ -4,9 +4,6 @@ namespace Prim\Console;
 
 use Prim\Console\Service\Pack;
 
-/**
- * Example command for testing purposes.
- */
 class PackCommand extends Command
 {
     public function __construct(array $options, $input = null, $output = null)

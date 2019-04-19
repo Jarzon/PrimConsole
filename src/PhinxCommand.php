@@ -3,9 +3,6 @@ namespace Prim\Console;
 
 use Prim\Console\Service\FileHelper;
 
-/**
- * Example command for testing purposes.
- */
 class PhinxCommand extends Command
 {
     public function __construct(array $options, $input = null, $output = null)
