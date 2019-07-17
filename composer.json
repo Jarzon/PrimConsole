@@ -6,7 +6,7 @@
     },
     "require": {
         "php": ">=7.2.0",
-        "jarzon/prim" : "~0.14.0"
+        "jarzon/prim" : ">=0.14.0"
     },
     "require-dev": {
         "phpunit/phpunit": "7.5.*",

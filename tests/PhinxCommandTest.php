@@ -9,7 +9,7 @@ use Prim\Console\PhinxCommand;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 
-class MigrationTest extends TestCase
+class PhinxCommandTest extends TestCase
 {
     /**
      * @var  vfsStreamDirectory

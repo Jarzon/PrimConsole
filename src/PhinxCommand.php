@@ -24,8 +24,6 @@ class PhinxCommand extends Command
             'removeColumn'
         ];
 
-        $projectName = $this->options['project_name'];
-
         $dateTime = date('YmdHis');
 
         $this->output->writeLine("In what pack is the migration going?");
