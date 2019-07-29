@@ -110,10 +110,6 @@ class FileHelper
                     throw new \Exception("✖ Error in preg_replace_callback()");
                 }
 
-                if($count == 0) {
-                    throw new \Exception("✖ Nothing to replace in $filePath");
-                }
-
                 if (!file_put_contents($filePath, $fileContent) > 0) {
                     throw new \Exception("✖ Error while writing file");
                 }
