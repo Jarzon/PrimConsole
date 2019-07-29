@@ -135,10 +135,6 @@ class FileHelper
             $fileContent = preg_replace($regexes, $replaces, $fileContent, -1, $count);
         }
 
-        if($count == 0) {
-            throw new \Exception("✖ Nothing to replace in $filePath");
-        }
-
         if ($fileContent === null) {
             throw new \Exception("✖ Error in preg_replace()");
         }
