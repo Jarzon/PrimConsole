@@ -14,6 +14,11 @@ class CreateProject
         FileHelper::copyFile("$root/app/config/config.php.dist",  "$root/app/config/config.php");
         FileHelper::copyFile("$root/phinx.yml.dist", "$root/phinx.yml");
 
-        FileHelper::replaceInFolder($root, ['PrimBase', $projectname]);
+        try {
+            FileHelper::replaceInFolder($root, ['PrimBase', $projectname]);
+        }
+        catch (\Exception $e) {
+            echo $e->getMessage() . "\n";
+        }
     }
 }
