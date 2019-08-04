@@ -2,7 +2,6 @@
 namespace Prim\Console;
 
 use Composer\Script\Event;
-use Prim\Console\Service\FileHelper;
 
 class CreateProject
 {
@@ -11,14 +10,59 @@ class CreateProject
         $root = realpath(".");
         $projectname = ucfirst(basename($root));
 
-        FileHelper::copyFile("$root/app/config/config.php.dist",  "$root/app/config/config.php");
-        FileHelper::copyFile("$root/phinx.yml.dist", "$root/phinx.yml");
+        $replaces = [
+            "PrimBase" => $projectname
+        ];
 
-        try {
-            FileHelper::replaceInFolder($root, ['PrimBase', $projectname]);
+        copy("$root/app/config/config.php.dist",  "$root/app/config/config.php");
+        copy("$root/phinx.yml.dist", "$root/phinx.yml");
+
+        foreach (self::recursiveGlob("$root/*.*") as $target) {
+            if(is_dir($target)) {
+                continue;
+            }
+
+            echo "applying variables to $target...\n";
+            self::applyValues($target, $replaces);
         }
-        catch (\Exception $e) {
-            echo $e->getMessage() . "\n";
+
+        foreach (self::recursiveGlob("$root/**/*.*") as $target) {
+            if(is_dir($target) || strpos($target, 'vendor') !== false || strpos($target, 'node_modules') !== false) {
+                continue;
+            }
+
+            echo "applying variables to $target...\n";
+            self::applyValues($target, $replaces);
         }
+    }
+
+    protected static function applyValues($target, $replaces)
+    {
+        file_put_contents(
+            $target,
+            strtr(
+                file_get_contents($target),
+                $replaces
+            )
+        );
+    }
+
+    protected static function recursiveGlob($pattern)
+    {
+        $subPatterns = explode('/**/', $pattern);
+
+        // Get sub dirs
+        $dirs = glob(array_shift($subPatterns) . '/*', GLOB_ONLYDIR);
+
+        // Get files in the current dir
+        $files = glob($pattern);
+
+        foreach ($dirs as $dir) {
+            $subDirList = self::recursiveGlob($dir . '/**/' . implode('/**/', $subPatterns));
+
+            $files = array_merge($files, $subDirList);
+        }
+
+        return $files;
     }
 }
