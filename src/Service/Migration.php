@@ -9,7 +9,7 @@ class Migration
     public function __construct($helper = null)
     {
         if($helper === null) {
-            $helper = new Helpers();
+            $helper = new FileHelper();
         }
 
         $this->helper = $helper;

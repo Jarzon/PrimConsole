@@ -87,7 +87,7 @@ class FileHelper
         return "✔ Created file at $filePath";
     }
 
-    static function replaceInFile(string $filePath, array $rows, $simpleString = false) : bool
+    static function replaceInFile(string $filePath, array $rows, $simpleString = false)
     {
         $regexes = [];
         $replaces = [];
@@ -111,7 +111,7 @@ class FileHelper
                 }
 
                 if (!file_put_contents($filePath, $fileContent) > 0) {
-                    throw new \Exception("✖ Error while writing file");
+                    return "✖ Error while writing on $filePath file";
                 }
 
                 return true;
@@ -139,7 +139,7 @@ class FileHelper
             throw new \Exception("✖ Error in preg_replace()");
         }
         if (!file_put_contents($filePath, $fileContent) > 0) {
-            throw new \Exception("✖ Error while writing file");
+            return "✖ Error while writing on $filePath file";
         }
 
         return "✔ Migration on file $filePath done";

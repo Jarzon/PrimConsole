@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -26,10 +25,10 @@ class PhinxCommandTest extends TestCase
             ],
             'ProjectDir' => [
                 'app' => [
-                    'routing.php' => $routing,
+                    'routing.php' => '',
                 ],
                 'app2' => [
-                    'routing.php' => $routing,
+                    'routing.php' => '',
                 ],
             ],
             'stdout' => ''
