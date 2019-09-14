@@ -17,9 +17,7 @@ class PackCommand extends Command
 
     public function exec()
     {
-        $configs = $this->console->getConfigs();
-
-        $projectName = $configs['project_name'];
+        $projectName = $this->options['project_name'];
 
         $packName = $this->input->getArgument(0);
 
@@ -34,7 +32,7 @@ class PackCommand extends Command
             $basePack = 'CrudPack';
         }
 
-        $pack = new Pack($configs['root'], $projectName);
+        $pack = new Pack($this->options['root'], $projectName);
 
         $pack->create($packName, $basePack);
 
