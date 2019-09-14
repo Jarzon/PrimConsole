@@ -11,7 +11,8 @@ class CreateProject
         $projectname = ucfirst(basename($root));
 
         $replaces = [
-            "PrimBase" => $projectname
+            "PrimBase" => $projectname,
+            "primbase" => strtolower($projectname)
         ];
 
         copy("$root/app/config/config.php.dist",  "$root/app/config/config.php");
