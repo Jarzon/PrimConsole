@@ -1,5 +1,6 @@
 {
     "name": "jarzon/primconsole",
+    "description": "Console commands for Prim",
     "type": "project",
     "autoload": {
         "psr-4": {"Prim\\Console\\": "src/"}
@@ -11,6 +12,6 @@
     "require-dev": {
         "phpunit/phpunit": "7.5.*",
         "phpunit/dbunit": ">=1.2",
-        "mikey179/vfsStream": "1.6.x"
+        "mikey179/vfsstream": "1.6.x"
     }
 }
