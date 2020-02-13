@@ -3,6 +3,8 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
+use Prim\Console\Input;
+use Prim\Console\Output;
 use Prim\Console\PhinxCommand;
 
 use org\bovigo\vfs\vfsStream;
@@ -23,15 +25,19 @@ class PhinxCommandTest extends TestCase
                     '0.1.php' => '',
                 ],
             ],
-            'ProjectDir' => [
-                'app' => [
-                    'routing.php' => '',
-                ],
-                'app2' => [
-                    'routing.php' => '',
+            'src' => [
+                'TestPack' => [
+                    'phinx' => [
+                        'migrations' => [
+
+                        ]
+                    ],
                 ],
             ],
-            'stdout' => ''
+            'stdout' => '',
+            'stdin' => "Test\r\n
+                        Table\r\n
+                        create\r\n"
         ];
 
         $this->root = vfsStream::setup('root', null, $structure);
@@ -39,11 +45,14 @@ class PhinxCommandTest extends TestCase
 
     public function testPhinx()
     {
-        $phinx = new PhinxCommand([]);
+        $phinx = new PhinxCommand(['root' => vfsStream::url('root')], (new Input(['bin/prim'], vfsStream::url('root/stdin'))), new Output(vfsStream::url('root/stdout')));
 
-        $this->assertTrue(
-            $phinx->exec(),
-            '->migration return true when file exist'
+        $phinx->exec();
+
+        $this->assertEquals(
+            3,
+            count(scandir(vfsStream::url('root/src/TestPack/phinx/migrations/'))),
+            'phinx migration file have beec created'
         );
 
         return $phinx;

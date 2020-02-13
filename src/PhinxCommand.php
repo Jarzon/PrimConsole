@@ -5,7 +5,7 @@ use Prim\Console\Service\FileHelper;
 
 class PhinxCommand extends Command
 {
-    public function __construct(array $options, $input = null, $output = null)
+    public function __construct(array $options, Input $input = null, Output $output = null)
     {
         parent::__construct($options, $input, $output);
 
@@ -27,7 +27,8 @@ class PhinxCommand extends Command
         $dateTime = date('YmdHis');
 
         $this->output->writeLine("In what pack is the migration going?");
-        $pack = $this->input->read();
+
+        $pack = ucfirst($this->input->read());
 
         if(strpos($pack, 'Pack') === false) {
             $pack = "{$pack}Pack";
