@@ -28,11 +28,16 @@ class PhinxCommand extends Command
 
         $this->output->writeLine("In what pack is the migration going?");
 
-        $pack = ucfirst($this->input->read());
+        $pack = $name = $this->input->read();
 
         if(strpos($pack, 'Pack') === false) {
             $pack = "{$pack}Pack";
+        } else {
+            $name = str_replace('Pack', '', $name);
         }
+
+        $pack = ucfirst($pack);
+        $name = lcfirst($name . 's');
 
         $pathToPack = "{$this->options['root']}src/{$pack}";
 
@@ -41,26 +46,59 @@ class PhinxCommand extends Command
             return;
         }
 
-        $this->output->writeLine("What table is the migration applying to?");
+        $this->output->writeLine("What table is the migration applying to? [$name]");
         $table = $this->input->read();
 
-        $this->output->writeLine("In a few words, how would you describe the migration?");
+        if($table === '') {
+
+        }
+
+        $this->output->writeLine("In a few words, how would you describe the migration? [create]");
         $description = $this->input->read();
 
-        $description = explode(' ', $description);
+        if($description === '') {
+            $description = 'create';
+        }
 
-        $underscoreDescription = implode('_', $description);
+        $descriptionWords = explode(' ', $description);
 
-        $camelCaseDescription = implode('', array_map('ucfirst', $description));
+        $underscoreDescription = implode('_', $descriptionWords);
+
+        $camelCaseDescription = implode('', array_map('ucfirst', $descriptionWords));
 
         $this->output->writeLine("What migration type do you want?");
-        $this->output->writeLine("1) Create a new table");
-        $this->output->writeLine("2) Add columns to existing table");
-        $this->output->writeLine("3) Change table's columns");
-        $this->output->writeLine("4) Rename columns");
-        $this->output->writeLine("5) Remove columns");
+        $actions = [
+            'create' => "Create a new table",
+            'add' => "Add columns to existing table",
+            'change' => "Change table's columns",
+            'rename' => "Rename columns",
+            'remove' => "Remove columns"
+        ];
 
-        $migrationType = $this->input->read() - 1;
+        $defaultAction = null;
+        $n = 1;
+        foreach ($actions as $index => $action) {
+            $line = "$n) ";
+
+            if(strpos($description, $index) !== false) {
+                $defaultAction = $n;
+                $line .= "[$action]";
+            } else {
+                $line .= "$action";
+            }
+
+            $this->output->writeLine($line);
+            $n++;
+        }
+
+        $migrationType = $this->input->read();
+
+        if($migrationType === '') {
+            $migrationType = $defaultAction ?? 1;
+        }
+
+        $migrationType -= 1;
+
 
         $destinationFile = "{$pathToPack}/phinx/";
         $migrationClassName = ucfirst($table) . $camelCaseDescription;
