@@ -50,7 +50,7 @@ class PhinxCommand extends Command
         $table = $this->input->read();
 
         if($table === '') {
-
+            $table = $name;
         }
 
         $this->output->writeLine("In a few words, how would you describe the migration? [create]");
