@@ -3,7 +3,7 @@ namespace Prim\Console\Service;
 
 class FileHelper
 {
-    static function copy(string $src, string $dst, array $whitelist = [])
+    static function copy(string $src, string $dst, array $whitelist = []): void
     {
         $MVCFolders = self::getFilesList($src);
 
@@ -12,7 +12,7 @@ class FileHelper
         }
     }
 
-    static function recursiveCopy(string $src, string $dst)
+    static function recursiveCopy(string $src, string $dst): void
     {
         $dir = opendir($src);
         @mkdir($dst);
@@ -29,12 +29,12 @@ class FileHelper
         closedir($dir);
     }
 
-    static function copyFile(string $src, string $dst)
+    static function copyFile(string $src, string $dst): void
     {
         copy($src, $dst);
     }
 
-    static function gitMove(string $source, string $destination) : array
+    static function gitMove(string $source, string $destination): array
     {
         $output = [];
 
@@ -60,7 +60,7 @@ class FileHelper
      * TODO: Give the backed up files a unique name, using like the current time to avoid overriding them on multiple migrations
      * TODO: If we have to backup many files create another method that is gonna dispatch the array and call fileBackup
      * */
-    public static function fileBackup($file)
+    public static function fileBackup($file): string
     {
         if (!copy($file, $file . '.backup')) {
             throw new \Exception("✖ Failed to copy $file...");
@@ -72,7 +72,7 @@ class FileHelper
     /**
      * Insert text in file, create one if it doesn't exist
      */
-    static function putInFile(string $filePath, string $text, bool $append = false)
+    static function putInFile(string $filePath, string $text, bool $append = false): string
     {
         $flags = 0;
 
@@ -87,7 +87,7 @@ class FileHelper
         return "✔ Created file at $filePath";
     }
 
-    static function replaceInFile(string $filePath, array $rows, $simpleString = false)
+    static function replaceInFile(string $filePath, array $rows, $simpleString = false): string|bool
     {
         $regexes = [];
         $replaces = [];
@@ -145,7 +145,7 @@ class FileHelper
         return "✔ Migration on file $filePath done";
     }
 
-    static function extractFromFile(string $filePath, string $regex) : array
+    static function extractFromFile(string $filePath, string $regex): array
     {
         if (file_exists($filePath) === false || !is_writeable($filePath)) {
             throw new \Exception("✖ File $filePath does not exist or isn't writable");
@@ -163,7 +163,7 @@ class FileHelper
     /**
      * Replace string using a regex in every files in a folder
      */
-    static function replaceInFolder(string $folderPath, array $rows) : bool
+    static function replaceInFolder(string $folderPath, array $rows): bool
     {
         $files = self::getFilesList($folderPath);
 
@@ -186,7 +186,7 @@ class FileHelper
         return $replaced;
     }
 
-    static function replaceRegex(array $matchs, array $subRegex)
+    static function replaceRegex(array $matchs, array $subRegex): array|string
     {
         $regex = self::parseRegex($subRegex[0]);
         $replace = $subRegex[1];
@@ -194,7 +194,7 @@ class FileHelper
         return preg_replace($regex, $replace, $matchs[1]);
     }
 
-    protected static function parseRegex($regex)
+    protected static function parseRegex(string $regex): string
     {
         if(is_array($regex)) {
             $regex = self::sprintfArray(self::regexEsc(array_shift($regex)), $regex);
@@ -203,7 +203,7 @@ class FileHelper
         return $regex;
     }
 
-    protected static function sprintfArray($format, $arr)
+    protected static function sprintfArray(mixed $format, array $arr)
     {
         return call_user_func_array('sprintf', array_merge((array)$format, $arr));
     }
@@ -211,7 +211,7 @@ class FileHelper
     /**
      * Get a list of the files in a folder
      */
-    protected static function getFilesList(string $folderPath) : array
+    protected static function getFilesList(string $folderPath): array
     {
         return array_diff(scandir($folderPath), array('..', '.'));
     }
@@ -219,12 +219,12 @@ class FileHelper
     /**
      * Esc regex special chars
      */
-    protected static function regexEsc(string $regex) :string
+    protected static function regexEsc(string $regex): string
     {
         return '/'.preg_quote($regex, '/').'/';
     }
 
-    static function mkdir($folderPath) : bool
+    static function mkdir(string $folderPath): bool
     {
         if (!mkdir($folderPath, 0755, false)) {
             return false;

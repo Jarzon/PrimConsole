@@ -6,9 +6,9 @@ use Prim\Console\Service\FileHelper;
 
 class PackCommand extends Command
 {
-    protected $projectPath = '/';
-    protected $projectName = '';
-    protected $name = '';
+    protected string $projectPath = '/';
+    protected string $projectName = '';
+    public string $name = '';
 
     public function __construct(array $options, $input = null, $output = null)
     {
@@ -69,7 +69,7 @@ class PackCommand extends Command
 
         FileHelper::replaceInFolder("/src/$packName/", [
             ['BasePack', $packName],
-            ['PrimBase', ucfirst($this->project)],
+            ['PrimBase', ucfirst($this->projectName)],
         ]);
 
         return true;

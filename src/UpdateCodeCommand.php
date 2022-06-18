@@ -16,7 +16,7 @@ class UpdateCodeCommand extends Command
 
     public function exec()
     {
-        $version = $this->getArgument('version');
+        $version = $this->input->getArgument('version');
 
         if (!$version) {
             $this->output->writeLine('✖ Missing project name or version');

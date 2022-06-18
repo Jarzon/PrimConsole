@@ -5,7 +5,7 @@ use Composer\Script\Event;
 
 class CreateProject
 {
-    public static function postCreateProject(Event $event)
+    public static function postCreateProject(Event $event): void
     {
         $root = realpath(".");
         $projectname = ucfirst(basename($root));
@@ -37,7 +37,7 @@ class CreateProject
         }
     }
 
-    protected static function applyValues($target, $replaces)
+    protected static function applyValues($target, $replaces): void
     {
         file_put_contents(
             $target,
@@ -48,7 +48,7 @@ class CreateProject
         );
     }
 
-    protected static function recursiveGlob($pattern)
+    protected static function recursiveGlob($pattern): array
     {
         $subPatterns = explode('/**/', $pattern);
 
