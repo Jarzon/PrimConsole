@@ -8,6 +8,7 @@ class **CLASS_NAME** extends AbstractMigration
         $table = $this->table('**TABLE**');
         $table
             ->addColumn('number', 'integer', ['default' => '0'])
+            ->addColumn('string', 'string', ['default' => '', 'after' => 'number'])
             ->addColumn('text', 'text', ['null' => true])
             ->addColumn('date', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('decimal', 'decimal', ['scale' => '4', 'precision' => '10'])
