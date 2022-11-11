@@ -82,7 +82,7 @@ class PhinxCommand extends Command
 
             $underscoreDescription = implode('_', $descriptionWords);
 
-            $camelCaseDescription = implode('', array_map('ucfirst', $descriptionWords));
+            $camelCaseClassName = implode('', array_map('ucfirst', $descriptionWords));
 
             $this->output->writeLine("What migration type do you want?");
             $actions = [
@@ -118,8 +118,11 @@ class PhinxCommand extends Command
             $migrationType -= 1;
 
 
+            $tableNameEx = explode('_', $table);
+
+            $camelCaseClassName = implode('', array_map('ucfirst', $tableNameEx)) . $camelCaseClassName;
+
             $destinationFile = "{$pathToPack}/phinx/";
-            $migrationClassName = ucfirst($table) . $camelCaseDescription;
 
             if(!file_exists($destinationFile)) {
                 FileHelper::mkdir($destinationFile);
@@ -140,7 +143,7 @@ class PhinxCommand extends Command
 
             FileHelper::replaceInFile($destinationFile, [
                 ['**TABLE**', $table],
-                ['**CLASS_NAME**', $migrationClassName]
+                ['**CLASS_NAME**', $camelCaseClassName]
             ]);
         }
         else {
