@@ -39,7 +39,8 @@ class PhinxCommand extends Command
                 'addColumns',
                 'changeColumn',
                 'renameColumn',
-                'removeColumn'
+                'removeColumn',
+                'addOrUpdateColumnWithUpdate'
             ];
 
             $dateTime = date('YmdHis');
@@ -90,7 +91,8 @@ class PhinxCommand extends Command
                 'add' => "Add columns to existing table",
                 'change' => "Change table's columns",
                 'rename' => "Rename columns",
-                'remove' => "Remove columns"
+                'remove' => "Remove columns",
+                'update' => "Update existing data"
             ];
 
             $defaultAction = null;

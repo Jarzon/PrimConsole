@@ -11,7 +11,7 @@ class **CLASS_NAME** extends AbstractMigration
             ->update();
     }
 
-        public function down()
+    public function down()
     {
         $table = $this->table('**TABLE**');
         $table
