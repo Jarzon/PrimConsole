@@ -17,9 +17,9 @@ class PhinxCommand extends Command
     public function exec(): void
     {
         $action = $this->input->getArgument(0);
-        if($action === 'migrate') {
+        if(in_array($action, ['migrate', 'rollback'])) {
             $arguments = [
-                'command' => 'migrate',
+                'command' => $action,
                 '-c' => "{$this->options['root']}phinx.yml",
                 '-e' => 'dev',
                 '-vvv' => true
@@ -28,7 +28,7 @@ class PhinxCommand extends Command
             $phinx = new \Phinx\Console\PhinxApplication();
             $output = new ConsoleOutput();
 
-            $phinx->find('migrate')->run(
+            $phinx->find($action)->run(
                 new \Symfony\Component\Console\Input\ArrayInput($arguments),
                 $output
             );
