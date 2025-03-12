@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PhinxCommand extends Command
 {
-    public function __construct(array $options, Input $input = null, Output $output = null)
+    public function __construct(array $options, Input|null $input = null, Output|null $output = null)
     {
         parent::__construct($options, $input, $output);
         $this
