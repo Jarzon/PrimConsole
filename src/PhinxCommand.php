@@ -17,7 +17,7 @@ class PhinxCommand extends Command
     public function exec(): void
     {
         $action = $this->input->getArgument(0);
-        if(in_array($action, ['migrate', 'rollback'])) {
+        if(in_array($action, ['migrate', 'rollback', 'status'])) {
             $arguments = [
                 'command' => $action,
                 '-c' => "{$this->options['root']}phinx.yml",
