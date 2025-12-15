@@ -124,7 +124,7 @@ class PhinxCommand extends Command
 
             $camelCaseClassName = implode('', array_map('ucfirst', $tableNameEx)) . $camelCaseClassName;
 
-            $destinationFile = "{$pathToPack}/phinx/";
+            $destinationFile = "{$pathToPack}/";
 
             if(!file_exists($destinationFile)) {
                 FileHelper::mkdir($destinationFile);
