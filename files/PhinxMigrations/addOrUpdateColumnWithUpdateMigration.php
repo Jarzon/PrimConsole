@@ -3,7 +3,7 @@ use Phinx\Migration\AbstractMigration;
 
 class **CLASS_NAME** extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $table = $this->table('**TABLE**');
         $table
@@ -23,7 +23,7 @@ class **CLASS_NAME** extends AbstractMigration
         $this->query("UPDATE **TABLE** SET column = ? where column = ?");
     }
 
-    public function down()
+    public function down(): void
     {
         $table = $this->table('**TABLE**');
         $table

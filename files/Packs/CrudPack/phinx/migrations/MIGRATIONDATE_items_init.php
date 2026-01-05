@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 class ItemsInit extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $table = $this->table('items');
         $table

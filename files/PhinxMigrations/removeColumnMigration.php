@@ -3,7 +3,7 @@ use Phinx\Migration\AbstractMigration;
 
 class **CLASS_NAME** extends AbstractMigration
 {
-    public function up()
+    public function up(): void
     {
         $table = $this->table('**TABLE**');
         $table
@@ -11,7 +11,7 @@ class **CLASS_NAME** extends AbstractMigration
             ->save();
     }
 
-    public function down()
+    public function down(): void
     {
         $table = $this->table('**TABLE**');
         $table
